@@ -8,13 +8,15 @@ let run3 = new Image();
 let jumpImage = new Image();
 let obstacleImage = new Image();
 
-run1.src = "./run1.png";
-run2.src = "./run2.png";
-run3.src = "./run3.png";
-jumpImage.src = "./jump.png";
-obstacleImage.src = "./snowglobe.png";
+run1.src = "assets/run1.png";
+run2.src = "assets/run2.png";
+run3.src = "assets/run3.png";
+jumpImage.src = "assets/jump.png";
+obstacleImage.src = "assets/snowglobe.png";
 
 let runImage = [run1, run2, run3];
+
+
 
 
 
