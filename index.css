@@ -1,0 +1,35 @@
+body{
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-color: #f0f0f0;
+    background-blend-mode: overlay;
+}
+
+h1{
+    color: #72a5df;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    margin-top: 50px;
+}
+
+#menu {
+  text-align: center;
+}
+
+button {
+  background-color: #72a5df;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+  
+button:hover {
+  background-color: #5a8ac4;
+}
