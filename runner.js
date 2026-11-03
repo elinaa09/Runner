@@ -17,6 +17,7 @@ obstacleImage.src = "assets/globe1.png";
 
 let runImage = [run1, run2, run3];
 
+let groundY = canvas.height - 100;
 let playerX = 50;
 let playerY = groundY;
 let playerWidth=60;
@@ -29,7 +30,6 @@ let spawnTimer = 80;
 
 
 let gameSpeed = 5;
-let groundY = canvas.height - 100;
 let jumpHeight = 15;
 let currentRunFrame = 0;
 let runFrameTimer = 0;
@@ -53,56 +53,43 @@ let globe1Img;
 let globe2Img;
 let globe3Img;
 
-
-let gameOver = false;
-let score = 0;
-
-
 globe1Img = new Image();
-    globe1Img.src = "./img/globe1.png";
+    globe1Img.src = "assets/globe1.png";
 
     globe2Img = new Image();
-    globe2Img.src = "./img/globe2.png";
+    globe2Img.src = "assets/globe2.png";
 
     globe3Img = new Image();
-    globe3Img.src = "./img/globe3.png";
+    globe3Img.src = "assets/globe3.png";
 
 
-requestAnimationFrame(upadate);
-setInterval(spawnObstacle, 1000);
+    let gameOver = false;
+    let score = 0;
+
 document.addEventListener("keydown", (event) => {
-  if (event.code === "Space" && !isjumping) {
+  if (event.code === "Space") {
+   event.preventDefault();
+
+   if (gameOver) {
+      location.reload();
+      return;
+    }
+
+    if (!isjumping) {
     playerSpeedY = -jumpHeight;
     isjumping = true;
     if (sound === 'on') {
       document.getElementById("jumpSound").play();
-    }}
-
-    function update() {
-    requestAnimationFrame(update);
-    if (gameOver) {
-        return;
     }
-    context.clearRect(0, 0, board.width, board.height);
-
-
-
-    if (playerY < groundY) {
-      playerY = groundY;
-      isjumping = false;
-    }
-
-
-
-
-
-
-
-
-let best = localStorage.getItem('highScore') || 0
-if (score > best) {
-  localStorage.setItem('highScore', score)
+  }
 }
+});
+
+function spawnObstacle() {
+  if (gameOver) {
+    return;
+  }
+
 
 let globe = {
         img : null,
@@ -112,26 +99,26 @@ let globe = {
         height: globeHeight
     }
 
-    let placeglobeChance = Math.random(); //0 - 0.9999...
+    let placeglobeChance = Math.random(); 
 
-    if (placeglobeChance > .90) { //10% you get globe3
+    if (placeglobeChance > .90) { 
         globe.img = globe3Img;
         globe.width = globe3Width;
         globeArray.push(globe);
     }
-    else if (placeglobeChance > .70) { //30% you get globe2
+    else if (placeglobeChance > .70) { 
         globe.img = globe2Img;
         globe.width = globe2Width;
         globeArray.push(globe);
     }
-    else if (placeglobeChance > .50) { //50% you get globe1
+    else if (placeglobeChance > .50) {
         globe.img = globe1Img;
         globe.width = globe1Width;
         globeArray.push(globe);
     }
 
     if (globeArray.length > 5) {
-        globeArray.shift(); //remove the first element from the array so that the array doesn't constantly grow
+        globeArray.shift(); //removes the first element from the array so that the array doesn't constantly grow
     }
 }
 
@@ -140,4 +127,57 @@ function detectCollision(a, b) {
            a.x + a.width > b.x &&   //a's top right corner passes b's top left corner
            a.y < b.y + b.height &&  //a's top left corner cant reach b's bottom left corner
            a.y + a.height > b.y;    //a's bottom left corner passes b's top left corner
-}})
+}
+
+function update() {
+    requestAnimationFrame(update);
+    if (gameOver) {
+        return;
+    }
+    context.clearRect(0, 0, board.width, board.height);
+
+
+  playerSpeedY = playerSpeedY + gravity;
+  playerY = playerY + playerSpeedY;
+
+    if (playerY < groundY) {
+      playerY = groundY;
+      isjumping = false;
+    }
+
+let playerImg;
+    if (isjumping) {
+        playerImg = jumpImage;
+    } else {
+        runFrameTimer++;
+if (runFrameTimer >= runFrameInterval) {
+            currentRunFrame = (currentRunFrame + 1) % runImage.length;
+            runFrameTimer = 0;
+        }
+playerImg = runImage[currentRunFrame];
+  }
+  context.drawImage(playerImg, playerX, playerY, playerWidth, playerHeight);
+
+  let player = { x: playerX, y: playerY, width: playerWidth, height: playerHeight };
+
+    for (let i =0; i < globeArray.length; i++) {
+        let globe = globeArray[i];
+        globe.x += velocityX;
+        context.drawImage(globe.img, globe.x, globe.y, globe.width, globe.height)
+        
+
+        let best = localStorage.getItem('highScore') || 0;
+      if (score > best) {
+        localStorage.setItem('highScore', score);
+      }
+
+
+      score = score + 1;
+  context.fillStyle = "black";
+  context.font = "20px sans-serif";
+  context.fillText("Score: " + score, 10, 30);
+}
+
+requestAnimationFrame(update);
+setInterval(spawnObstacle, 1000)
+}

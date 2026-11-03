@@ -12,11 +12,3 @@ body{
     overflow: hidden;
 }
 
-#globe {
-  width: 150px;
-  height: 150px;
-  background-image: url('assets/snowglobe.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-}
- 
