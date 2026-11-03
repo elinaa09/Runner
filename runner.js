@@ -1,23 +1,22 @@
 let canvas = document.getElementById("gameCanvas");
-let sound = localStorage.getItem('sound')
-
-
+let context = canvas.getContext("2d");
+let sound = localStorage.getItem('sound') || 'on';
 
 let run1 = new Image();
 let run2 = new Image();
 let run3 = new Image();
 let jumpImage = new Image();
-let obstacleImage = new Image();
 
 run1.src = "assets/run1.png";
 run2.src = "assets/run2.png";
 run3.src = "assets/run3.png";
 jumpImage.src = "assets/jump.png";
-obstacleImage.src = "assets/globe1.png";
+
 
 let runImage = [run1, run2, run3];
 
 let groundY = canvas.height - 100;
+
 let playerX = 50;
 let playerY = groundY;
 let playerWidth=60;
@@ -25,11 +24,11 @@ let playerHeight=70;
 let playerSpeedY=0;
 let isjumping= false;
 
+
 let obstacleList = [];
 let spawnTimer = 80;
 
 
-let gameSpeed = 5;
 let jumpHeight = 15;
 let currentRunFrame = 0;
 let runFrameTimer = 0;
@@ -47,11 +46,8 @@ let globe3Width = 102;
 
 let globeHeight = 70;
 let globeX = 700;
-let globeY = boardHeight - globeHeight;
+let globeY = groundY + playerHeight - globeHeight;
 
-let globe1Img;
-let globe2Img;
-let globe3Img;
 
 globe1Img = new Image();
     globe1Img.src = "assets/globe1.png";
@@ -91,7 +87,7 @@ function spawnObstacle() {
   }
 
 
-let globe = {
+  let globe = {
         img : null,
         x : globeX,
         y : globeY,
@@ -133,51 +129,58 @@ function update() {
     requestAnimationFrame(update);
     if (gameOver) {
         return;
-    }
-    context.clearRect(0, 0, board.width, board.height);
+      }
 
+    context.clearRect(0, 0, board.width, board.height);
 
   playerSpeedY = playerSpeedY + gravity;
   playerY = playerY + playerSpeedY;
 
-    if (playerY < groundY) {
+    if (playerY > groundY) {
       playerY = groundY;
       isjumping = false;
     }
 
 let playerImg;
-    if (isjumping) {
-        playerImg = jumpImage;
-    } else {
-        runFrameTimer++;
-if (runFrameTimer >= runFrameInterval) {
-            currentRunFrame = (currentRunFrame + 1) % runImage.length;
-            runFrameTimer = 0;
-        }
-playerImg = runImage[currentRunFrame];
-  }
-  context.drawImage(playerImg, playerX, playerY, playerWidth, playerHeight);
+if (isjumping) {
+  playerImg = jumpImage;
+} else {
+  runFrameTimer+ 1;
+  if (runFrameTimer >= runFrameInterval) {
+    runFrameTimer = 0;
+    currentRunFrame = (currentRunFrame + 1) % 3;
+  }     
+  playerImg = runImage[currentRunFrame];
+}
+context.drawImage(playerImg, playerX, playerY, playerWidth, playerHeight);
 
-  let player = { x: playerX, y: playerY, width: playerWidth, height: playerHeight };
+let player = { x: playerX, y: playerY, width: playerWidth, height: playerHeight };
 
-    for (let i =0; i < globeArray.length; i++) {
-        let globe = globeArray[i];
-        globe.x += velocityX;
-        context.drawImage(globe.img, globe.x, globe.y, globe.width, globe.height)
+for (let i =0; i < globeArray.length; i++) {
+  let globe = globeArray[i];
+      globe.x += velocityX;
+      context.drawImage(globe.img, globe.x, globe.y, globe.width, globe.height)
         
+if (detectCollision(player, globe)) {
+  gameOver = true;
+  context.fillStyle = "black";
+  context.font = "40px sans-serif";
+  context.fillText("Game Over - press space", 250, 150);
+}
+}
+
+score = score + 1;
 
         let best = localStorage.getItem('highScore') || 0;
       if (score > best) {
         localStorage.setItem('highScore', score);
       }
 
-
-      score = score + 1;
-  context.fillStyle = "black";
-  context.font = "20px sans-serif";
-  context.fillText("Score: " + score, 10, 30);
-}
-
+      context.fillStyle = "black";
+      context.font = "20px sans-serif";
+       context.fillText("Score: " + score, 10, 30);
+      context.fillText("High Score: " + best, 10, 60);
+    }
+  
 requestAnimationFrame(update);
 setInterval(spawnObstacle, 1000)
-}

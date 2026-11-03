@@ -12,3 +12,21 @@ body{
     overflow: hidden;
 }
 
+canvas {
+    image-rendering: pixelated;
+}
+
+button {
+    background-color: #72a5df;
+    height: 80px;
+    width: 200px;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 15px;
+    cursor: pointer;
+    font-size: 60px;
+    border-radius: 5px;
+}
+
+
