@@ -2,6 +2,9 @@ let canvas = document.getElementById("gameCanvas");
 let context = canvas.getContext("2d");
 let sound = localStorage.getItem('sound') || 'on';
 
+canvas.width = 1600;
+canvas.height = 800;
+
 let startButton = document.getElementById("startButton");
 let started = false;
 
@@ -15,12 +18,14 @@ run2.src = "assets/run2.png";
 run3.src = "assets/run3.png";
 jumpImage.src = "assets/jump.png";
 
+let bgImage = new Image();
+bgImage.src = "assets/snowbg.jpg";
 
 let runImage = [run1, run2, run3];
 
-let groundY = canvas.height *0.9;
+let groundY = canvas.height *0.7;
 
-let playerX = 50;
+let playerX = 100;
 let playerY = groundY;
 let playerWidth=90;
 let playerHeight= canvas.height * 0.2;
@@ -35,15 +40,15 @@ let runFrameInterval = 5;
 
 let gravity = 0.4;
 let velocityX = -8;
-let velocityY = 0;
 
 let globeArray = [];
 
-let globe1Width = 60;
-let globe2Width = 60;
-let globe3Width = 60;
+let globeHeight = canvas.height * 0.1;
+let globe1Width = globeHeight;
+let globe2Width = globeHeight;
+let globe3Width = globeHeight;
 
-let globeHeight = 0;
+
 let globeX = canvas.width;
 let globeY = groundY + playerHeight - globeHeight;
 
@@ -140,7 +145,9 @@ function update() {
         return;
       }
 
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    if (bgImage.complete && bgImage.naturalWidth > 0) {
+      context.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+}
 
     if (!started) {
     context.drawImage(run1, playerX, playerY, playerWidth, playerHeight);
@@ -185,7 +192,7 @@ for (let i =0; i < globeArray.length; i++) {
     gameOver = true;
     context.fillStyle = "black";
     context.font = "40px sans-serif";
-    context.fillText("Game Over - press space", 200, 150);
+    context.fillText("Game Over - press space", canvas.width / 2 - 200, canvas.height / 3);
   }
 }
 

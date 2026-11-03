@@ -8,8 +8,6 @@ body{
     background-image: url('assets/snowbg.jpg');
     background-size: cover;
     background-repeat: repeat;
-    text-align: center;
-    overflow: hidden;
 }
 
 canvas {
