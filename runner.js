@@ -28,6 +28,58 @@ let obstacleList = [];
 let spawnTimer = 80;
 
 
+let gameSpeed = 5;
+let groundY = canvas.height - 100;
+let jumpHeight = 15;
+let currentRunFrame = 0;
+let runFrameTimer = 0;
+let runFrameInterval = 5;
+
+let gravity = 0.4;
+let velocityX = -8;
+let velocityY = 0;
+
+
+let gameOver = false;
+let score = 0;
+
+
+globeImg = new Image();
+globeImg.src = "assets/snowglobe.png";
+
+requestAnimationFrame(upadate);
+setInterval(spawnObstacle, 1000);
+document.addEventListener("keydown", (event) => {
+  if (event.code === "Space" && !isjumping) {
+    playerSpeedY = -jumpHeight;
+    isjumping = true;
+    if (sound === 'on') {
+      document.getElementById("jumpSound").play();
+    }}
+
+    
+
+
+document.addEventListener("keyup", (event) => {
+  if (event.code === "Space" && !isjumping) {
+    playerSpeedY = -jumpHeight;
+    isjumping = true;
+    if (sound === 'on') {
+      document.getElementById("jumpSound").play();
+    }
+    if (playerY < groundY) {
+      playerY = groundY;
+      isjumping = false;
+    }
+
+
+
+
+
+
+
+
+
 
 
 
