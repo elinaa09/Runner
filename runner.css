@@ -14,6 +14,13 @@ body{
 
 canvas {
     image-rendering: pixelated;
+    position: fixed;
+    display: block;
+    top: 0;
+    left: 0;
+    height:100vw;
+    width:100vh;
+
 }
 
 button {
@@ -29,7 +36,28 @@ button {
     border-radius: 5px;
 }
 
+#startButton {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    z-index: 1000;
+}
+
 .player {
     height: 400px;
 }
+
+canvas {
+    position: fixed;
+}
+
+a{
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+}
+
+
+
 

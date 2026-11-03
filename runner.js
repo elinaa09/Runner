@@ -18,12 +18,12 @@ jumpImage.src = "assets/jump.png";
 
 let runImage = [run1, run2, run3];
 
-let groundY = canvas.height - 100;
+let groundY = canvas.height *0.9;
 
 let playerX = 50;
 let playerY = groundY;
 let playerWidth=90;
-let playerHeight=105;
+let playerHeight= canvas.height * 0.2;
 let playerSpeedY=0;
 let isjumping= false;
 
