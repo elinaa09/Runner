@@ -21,6 +21,9 @@ jumpImage.src = "assets/jump.png";
 let bgImage = new Image();
 bgImage.src = "assets/snowbg.jpg";
 
+let snowflakeImg = new Image();
+snowflakeImg.src = "assets/snowflake.png";
+
 let runImage = [run1, run2, run3];
 
 let groundY = canvas.height *0.7;
@@ -54,14 +57,17 @@ let globeY = groundY + playerHeight - globeHeight;
 
 
 globe1Img = new Image();
-    globe1Img.src = "assets/globe1.png";
+globe1Img.src = "assets/globe1.png";
 
-    globe2Img = new Image();
-    globe2Img.src = "assets/globe2.png";
+globe2Img = new Image();
+globe2Img.src = "assets/globe2.png";
 
-    globe3Img = new Image();
-    globe3Img.src = "assets/globe3.png";
+globe3Img = new Image();
+globe3Img.src = "assets/globe3.png";
 
+let snowflakeArray = [];
+let snowflakeSize = canvas.height * 0.07;
+let snowflakesCollected = 0;
 
     let gameOver = false;
     let score = 0;
