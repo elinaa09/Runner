@@ -39,10 +39,19 @@ let isjumping= false;
 let jumpHeight = 13;
 let currentRunFrame = 0;
 let runFrameTimer = 0;
-let runFrameInterval = 5;
+let runFrameInterval = 10;
 
 let gravity = 0.3;
+
+let difficulty = localStorage.getItem('difficulty') || 'normal';
+
 let velocityX = -8;
+let spawnTime = 1000;
+
+if (difficulty === 'hard') {
+  velocityX = -13;
+  spawnTime = 700;
+}
 
 let globeArray = [];
 
@@ -258,14 +267,16 @@ for (let i =0; i < globeArray.length; i++) {
     }
   
 requestAnimationFrame(update);
-setInterval(spawnObstacle, 1000);
+setInterval(spawnObstacle, spawnTime);
 setInterval(spawnSnowflake, 1500);
 
 document.getElementById('hamburger').addEventListener('click', () => {
 let menu = document.getElementById('sideMenu')
 if (menu.style.display === 'block'){
   menu.style.display = 'none'
-} else {
+}
+else {
   menu.style.display = 'block'
 }
 })
+
