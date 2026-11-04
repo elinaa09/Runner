@@ -30,7 +30,7 @@ let groundY = canvas.height *0.7;
 
 let playerX = 100;
 let playerY = groundY;
-let playerWidth=90;
+let playerWidth=100;
 let playerHeight= canvas.height * 0.2;
 let playerSpeedY=0;
 let isjumping= false;
@@ -41,7 +41,7 @@ let currentRunFrame = 0;
 let runFrameTimer = 0;
 let runFrameInterval = 5;
 
-let gravity = 0.4;
+let gravity = 0.3;
 let velocityX = -8;
 
 let globeArray = [];
@@ -71,6 +71,16 @@ let snowflakesCollected = 0;
 
     let gameOver = false;
     let score = 0;
+
+    // draws a picture, or a white box if the picture file is missing
+function drawPicture(img, x, y, w, h) {
+  if (img.complete && img.naturalWidth > 0) {
+    context.drawImage(img, x, y, w, h);
+  } else {
+    context.fillStyle = "white";
+    context.fillRect(x, y, w, h);
+  }
+}
 
     startButton.addEventListener("click", () => {
        started = true;
@@ -138,11 +148,26 @@ function spawnObstacle() {
     }
 }
 
+function spawnSnowflake() {
+  if (!started || gameOver) {
+    return;
+  }
+
+  let snowflake = {
+    x: canvas.width,
+    y: groundY + playerHeight - snowflakeSize - Math.random() * 130,
+    width: snowflakeSize,
+    height: snowflakeSize
+  }
+  snowflakeArray.push(snowflake);
+}
+
+
 function detectCollision(a, b) {
-    return a.x < b.x + b.width &&   //a's top left corner cant reach b's top right corner
-           a.x + a.width > b.x &&   //a's top right corner passes b's top left corner
-           a.y < b.y + b.height &&  //a's top left corner cant reach b's bottom left corner
-           a.y + a.height > b.y;    //a's bottom left corner passes b's top left corner
+    return a.x < b.x + b.width &&   
+           a.x + a.width > b.x &&   
+           a.y < b.y + b.height &&  
+           a.y + a.height > b.y;    
 }
 
 function update() {
@@ -175,7 +200,7 @@ let playerImg;
 if (isjumping) {
   playerImg = jumpImage;
 } else {
-  runFrameTimer + 1;
+  runFrameTimer = runFrameTimer + 1;
   if (runFrameTimer >= runFrameInterval) {
     runFrameTimer = 0;
     currentRunFrame = (currentRunFrame + 1) % 3;
@@ -185,6 +210,24 @@ if (isjumping) {
 context.drawImage(playerImg, playerX, playerY, playerWidth, playerHeight);
 
 let player = { x: playerX, y: playerY, width: playerWidth, height: playerHeight };
+
+
+
+
+for (let i = snowflakeArray.length - 1; i >= 0; i--) {
+  let flake = snowflakeArray[i];
+  flake.x += velocityX;
+  drawPicture(snowflakeImg, flake.x, flake.y, flake.width, flake.height);
+
+if (detectCollision(player, flake)) {
+    snowflakeArray.splice(i, 1);
+    score = score + 1;
+} else if (flake.x + flake.width < 0) {
+    snowflakeArray.splice(i, 1);
+  }
+}
+
+
 
 
 
@@ -198,11 +241,10 @@ for (let i =0; i < globeArray.length; i++) {
     gameOver = true;
     context.fillStyle = "black";
     context.font = "40px sans-serif";
-    context.fillText("Game Over - press space", canvas.width / 2 - 200, canvas.height / 3);
+    context.fillText("Game Over", canvas.width / 2 - 200, canvas.height / 3);
   }
 }
 
-score = score + 1;
 
       let best = localStorage.getItem('highScore') || 0;
       if (score > best) {
@@ -217,3 +259,4 @@ score = score + 1;
   
 requestAnimationFrame(update);
 setInterval(spawnObstacle, 1000);
+setInterval(spawnSnowflake, 1500);
