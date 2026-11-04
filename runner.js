@@ -39,7 +39,7 @@ let isjumping= false;
 let jumpHeight = 13;
 let currentRunFrame = 0;
 let runFrameTimer = 0;
-let runFrameInterval = 10;
+let runFrameInterval = 18;
 
 let gravity = 0.3;
 
@@ -55,8 +55,8 @@ if (difficulty === 'hard') {
 
 let globeArray = [];
 
-let globeHeight = canvas.height * 0.1;
-let globe1Width = globeHeight;
+let globeHeight = canvas.height * 0.15;
+let globe1Width = globeHeight ;
 let globe2Width = globeHeight;
 let globe3Width = globeHeight;
 
