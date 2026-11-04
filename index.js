@@ -6,6 +6,7 @@ const highScoreElement = document.getElementById('highScore')
 const highScore = localStorage.getItem('highScore') || 0
 highScoreElement.textContent = `High Score: ${highScore}`
 
+
 document.getElementById('hamburger').addEventListener('click', () => {
   let menu = document.getElementById('sideMenu')
   if (menu.style.display === 'block') {

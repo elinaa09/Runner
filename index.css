@@ -1,22 +1,22 @@
 body{
-    background-image: url('snowbg.jpg');
+    background-image: url('assets/runnerbg.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
-    background-color: #f0f0f0;
-    background-blend-mode: overlay;
 }
 
 h1{
     color: #72a5df;
     font-family: 'Arial', sans-serif;
     text-align: center;
-    margin-top: 50px;
+    margin-top: 0px;
 }
 
 #menu {
   text-align: center;
+  padding: auto;
+  padding-top: 55vh;
 }
 
 button {
@@ -28,6 +28,12 @@ button {
   cursor: pointer;
   font-size: 16px;
   border-radius: 5px;
+}
+
+#highScore {
+  color: #72a5df;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
 }
   
 button:hover {
@@ -44,9 +50,10 @@ button:hover {
 #sideMenu {
   display: none;
   position: fixed;
+  flex-direction: column;
   top: 60px;
   right: 10px;
-  background: white;
-  padding: 10px;
+  background: transparent;
+  padding: 0px;
   z-index: 1000;
 }
