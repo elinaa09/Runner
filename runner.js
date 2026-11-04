@@ -260,3 +260,12 @@ for (let i =0; i < globeArray.length; i++) {
 requestAnimationFrame(update);
 setInterval(spawnObstacle, 1000);
 setInterval(spawnSnowflake, 1500);
+
+document.getElementById('hamburger').addEventListener('click', () => {
+let menu = document.getElementById('sideMenu')
+if (menu.style.display === 'block'){
+  menu.style.display = 'none'
+} else {
+  menu.style.display = 'block'
+}
+})
